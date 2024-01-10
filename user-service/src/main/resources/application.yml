@@ -1,0 +1,58 @@
+server:
+  port: 0
+
+spring:
+  application:
+    name: user-service
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: none
+#      ddl-auto: create-drop
+    show-sql: true
+    generate-ddl: true
+  datasource:
+    url: "jdbc:h2:~/test3"
+    driver-class-name: org.h2.Driver
+    username: sa
+  jwt:
+    token:
+      header: Authorization
+      type: Bearer
+      #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
+      secret-key: a2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbQ==
+      expire-length: 864000000 # 10days
+
+greeting:
+  message: Welcome to the Simple E-commerce.
+
+eureka:
+  instance:
+    instance-id: ${spring.cloud.client.hostname}:${spring.application.instance_id:${random.value}}
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh, info, metrics, prometheus
+
+clients:
+  order-service:
+    url: http://127.0.0.1:8000
+    exception:
+      orders_is_empty: order-service error
+
+logging:
+  level:
+    com.example.userservice.client: DEBUG
+
