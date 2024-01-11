@@ -21,9 +21,17 @@
 
 ### 4.2 Order-Service (port : random)
 - 동기화 이슈 : 인스턴스 2개 실행 시 별도 저장되는 현상
-- 해결방법 (진행 중)
+- 해결방법
 1. 단일 DB 사용 (h2 -> mariaDB)
 2. Kafka 이용 데이터 동기화
 3. 위 두가지 방법 혼합 
 
 ### 4.3 Catalog-Service (port : random)
+
+## To-Do
+1. Kafka 이용 데이터 동기화 적용
+2. mariaDB + Kafak 적용
+3. Resilience4J_Trace
+4. Monitoring
+5. Docker
+6. Deployment
