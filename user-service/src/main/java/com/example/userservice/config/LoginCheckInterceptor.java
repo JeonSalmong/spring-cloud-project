@@ -35,10 +35,6 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             }
         }
 
-        if (token == null || token.isEmpty()) {
-            log.info("미인증 사용자 요청");
-            throw new CustomException("미인증 사용자 요청");
-        }
         if (!jwtTokenProvider.validateToken(token)) {
             log.info("유효하지 않은 토큰");
             throw new CustomException("유효하지 않은 토큰");

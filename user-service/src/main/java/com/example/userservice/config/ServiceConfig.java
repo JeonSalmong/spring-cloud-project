@@ -2,7 +2,9 @@ package com.example.userservice.config;
 
 import com.example.userservice.config.exception.CoustomHandlerExceptionResolver;
 import feign.Logger;
+import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,6 +20,16 @@ import java.util.List;
 public class ServiceConfig implements WebMvcConfigurer {
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Bean
+    public FilterRegistrationBean loginCheckFilter() {
+        org.springframework.boot.web.servlet.FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new LoginCheckFilter());
+        filterRegistrationBean.setOrder(1);
+        filterRegistrationBean.addUrlPatterns("/*");
+        return filterRegistrationBean;
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
