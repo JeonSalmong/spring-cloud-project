@@ -12,14 +12,18 @@ spring:
       path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: none
-#      ddl-auto: create-drop
+#      ddl-auto: none
+      ddl-auto: create-drop
     show-sql: true
     generate-ddl: true
+    defer-datasource-initialization: true
   datasource:
     url: "jdbc:h2:~/test3"
     driver-class-name: org.h2.Driver
     username: sa
+  sql:
+    init:
+      mode: always
   jwt:
     token:
       header: Authorization

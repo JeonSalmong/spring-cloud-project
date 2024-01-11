@@ -3,10 +3,14 @@ package com.example.userservice.service;
 import com.example.userservice.client.OrderServiceClient;
 import com.example.userservice.config.exception.CustomException;
 import com.example.userservice.dto.UserDto;
+import com.example.userservice.entity.Authority;
+import com.example.userservice.entity.UserAuthority;
 import com.example.userservice.entity.UserEntity;
+import com.example.userservice.repository.AuthorityRepository;
 import com.example.userservice.repository.UserRepository;
 import com.example.userservice.config.JwtTokenProvider;
 import com.example.userservice.vo.RequestLogin;
+import com.example.userservice.vo.ResponseAuth;
 import com.example.userservice.vo.ResponseOrder;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +29,7 @@ import java.util.UUID;
 @Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final AuthorityRepository authorityRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final BCryptPasswordEncoder passwordEncoder;
     private final OrderServiceClient orderServiceClient;
@@ -38,9 +43,15 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = mapper.map(userDto, UserEntity.class);
         userEntity.setEncryptedPwd(passwordEncoder.encode(userDto.getPwd()));
 
+        Authority authority = authorityRepository.findByAuthorityName(userDto.getAuth());
+        UserAuthority userAuthority = UserAuthority.createUserAuthority(authority);
+        userEntity.addUserAuthority(userAuthority);
+
         userRepository.save(userEntity);
 
         UserDto returnUserDto = mapper.map(userEntity, UserDto.class);
+
+        returnUserDto.setAuth(userDto.getAuth());
 
         return returnUserDto;
     }
@@ -53,6 +64,14 @@ public class UserServiceImpl implements UserService {
             throw new CustomException("User not found");
 
         UserDto userDto = new ModelMapper().map(userEntity, UserDto.class);
+
+        List<ResponseAuth> auths = new ArrayList<>();
+        for (UserAuthority row : userEntity.getUserAuthorities()) {
+            ResponseAuth responseAuth = new ResponseAuth();
+            responseAuth.setAuth(row.getAuthority().getAuthorityName());
+            auths.add(responseAuth);
+        }
+        userDto.setAuths(auths);
 
         List<ResponseOrder> orders = new ArrayList<>();
         /* Using as rest template */
@@ -117,6 +136,23 @@ public class UserServiceImpl implements UserService {
 
         if (!passwordEncoder.matches(requestLogin.getPassword(), user.getEncryptedPwd())) {
             throw new CustomException("password 불일치!!");
+        }
+
+        //권한정보 확인
+        boolean ynAuth = false;
+        for (UserAuthority row : user.getUserAuthorities()) {
+            if ("admin".equals(row.getAuthority().getAuthorityName())) {
+                ynAuth = true;
+                break;
+            }
+
+            if ((requestLogin.getAuth()).equals(row.getAuthority().getAuthorityName())) {
+                ynAuth = true;
+                break;
+            }
+        }
+        if (!ynAuth) {
+            throw new CustomException("권한 불일치!!");
         }
 
         return jwtTokenProvider.createToken(user.getEmail(), requestLogin);

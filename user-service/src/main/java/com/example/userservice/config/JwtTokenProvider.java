@@ -23,6 +23,7 @@ public class JwtTokenProvider {
         claims.put("PLATFORM", requestLogin.getPlatForm());
         claims.put("BROWSER", requestLogin.getBrowser());
         claims.put("CLIENT", requestLogin.getClient());
+        claims.put("AUTH", requestLogin.getAuth());
 
         Date now = new Date();
 

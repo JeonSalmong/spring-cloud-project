@@ -1,22 +1,22 @@
 package com.example.userservice.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import jakarta.persistence.*;
-import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Data
-@Builder
 @Entity
+@ToString(exclude = "userAuthorities")
 @Table(name = "users")
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserEntity {
     @Id
+    @Column(name = "USER_SEQ")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,11 +29,11 @@ public class UserEntity {
     @Column(nullable = false, unique = true)
     private String encryptedPwd;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities;
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL)
+    private List<UserAuthority> userAuthorities = new ArrayList<>();
+    public void addUserAuthority(UserAuthority userAuthority) {
+        userAuthorities.add(userAuthority);
+        userAuthority.setUserEntity(this);
+    }
 
 }

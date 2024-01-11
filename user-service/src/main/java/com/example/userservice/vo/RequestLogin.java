@@ -20,4 +20,5 @@ public class RequestLogin {
     private String platForm;
     private String client;
     private String browser;
+    private String auth;
 }
