@@ -55,25 +55,39 @@ C:\Study\springCloud\Kafka\bin\windows>
 1. maraidb 설치 (https://mariadb.org/)  
 2. 초기화  
 관리자권한 cmd 실행 > C:\Study\springCloud\mariadb-10.5.23-winx64 이동  
+```
 .\bin\mariadb-install-db.exe --datadir=C:\Study\springCloud\mariadb-10.5.23-winx64\data --service=mariaDB --port=3306 --password=test1234  
+```
 (윈도우 서비스에서 mariaDB 서비스 시작 해 줘야 함)  
-cmd 에서 입력>> mysql -uroot -p  
+cmd 에서 입력>> 
+```
+mysql -uroot -p  
+```
 3. 테이블 생성
+```
 create database mydb;  
 use mydb;  
 create table users ( id int auto_increment primary key, user_id varchar(20) not null, pwd varchar(20) not null, name varchar(20) not null, create_at datetime default NOW());  
+```
 4. kafka connect 설치
-cmd에서 실행 >> curl -O https://packages.confluent.io/archive/6.1/confluent-6.1.0.tar.gz
+cmd에서 실행 >> 
+```
+curl -O https://packages.confluent.io/archive/6.1/confluent-6.1.0.tar.gz
+```
 5. JDBC connector 다운로드 및 설정
 https://www.confluent.io/hub/confluentinc/kafka-connect-jdbc  
 5.1 \etc\kafka\connect-distributed.properties 수정 (기존 주석처리하고 마지막에 추가)  
+```
 plugin.path=\C:\\Study\\springCloud\\Kafka-Connect\\confluentinc-kafka-connect-jdbc-10.7.4\\lib  
+```
 6. maria db jar 파일 복사 (mariadb-java-client-2.7.2.jar)
 from : C:\Users\DCCIS067000\.gradle\caches\modules-2\files-2.1\org.mariadb.jdbc\mariadb-java-client\2.7.2\138fb9b8caee700bf4793bc42947113a1dbc8532  
 to   : C:\Study\springCloud\Kafka-Connect\confluent-6.1.0\share\java\kafka  
 7. connect 실행 (Zookeeper, Kafka 서버 실행되어 있어야 함)
 C:\Study\springCloud\Kafka-Connect\confluent-6.1.0>  
+```
 .\bin\windows\connect-distributed.bat .\etc\kafka\connect-distributed.properties  
+```
 (실행시 Classpath is empty...오류나면 \bin\windows\kafka-run-class.bat 수정)  
 8. source connect 추가 
 postman으로 실행 >> post : http://localhost:8083/connectors  
