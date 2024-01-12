@@ -78,6 +78,7 @@ C:\Study\springCloud\Kafka-Connect\confluent-6.1.0>
 8. source connect 추가 
 postman으로 실행 >> post : http://localhost:8083/connectors  
 body 내용  
+'''
 {  
     "name" : "my-source-connect",  
     "config" : {  
@@ -92,8 +93,10 @@ body 내용
         "tasks.max" : "1" 
     }    
 }  
+'''
 참조 : https://velog.io/@anjinwoong/Kafka-Connect-%EC%9E%90%EC%A3%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%EB%AA%85%EB%A0%B9%EC%96%B4API-%EC%A0%95%EB%A6%AC  
 9. sink connect 추가 
+'''
 {  
     "name" : "my-sink-connect",  
     "config" : {  
@@ -108,7 +111,8 @@ body 내용
         "topics" : "my_topic_users"   
     }  
 }
-topics 이름과 동일한 테이블 자동 생성 됨  
+'''
+topics 이름과 동일한 테이블 자동 생성 됨    
 
 ## To-Do
 1. Kafka 이용 데이터 동기화 적용
