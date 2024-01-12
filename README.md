@@ -25,8 +25,32 @@
 1. 단일 DB 사용 (h2 -> mariaDB)
 2. Kafka 이용 데이터 동기화
 3. 위 두가지 방법 혼합 
+- catalog에 보내는 kafka producer 추가
+- 신규 정보 db insert 직접하지 않고, mariaDB connector 이용
+```
+{
+    "name" : "my-order-sink-connect",
+    "config" : {
+        "connector.class" : "io.confluent.connect.jdbc.JdbcSinkConnector",
+        "connection.url" : "jdbc:mysql://localhost:3306/mydb",
+        "connection.user" : "root",
+        "connection.password" : "test1234",
+        "delete.enabled" : "false",
+        "tasks.max" : "1",
+        "topics" : "orders",
+        "auto.create": "false",
+        "auto.evolve": "false",
+        "insert.mode": "insert",
+        "key.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "key.converter.schemas.enable": "true",
+        "value.converter": "org.apache.kafka.connect.json.JsonConverter",
+        "value.converter.schemas.enable": "true"
+    }
+}
+```
 
 ### 4.3 Catalog-Service (port : random)
+- order-service에서 보낸 메시지 수신하는 kafka consumer 추가
 
 ## 5. Kafka for 데이터동기화 (https://clack2933.tistory.com/20)
 ### Windows 로컬 환경 kafka Test
@@ -143,8 +167,8 @@ body 내용
 topics 이름과 동일한 테이블 자동 생성 됨    
 
 ## To-Do
-1. Kafka 이용 데이터 동기화 적용
-2. mariaDB + Kafka 적용
+~~1. Kafka 이용 데이터 동기화 적용~~
+~~2. mariaDB + Kafka 적용~~
 3. Resilience4J_Trace
 4. Monitoring
 5. Docker
