@@ -167,9 +167,9 @@ body 내용
 topics 이름과 동일한 테이블 자동 생성 됨    
 
 ## To-Do
-~~1. Kafka 이용 데이터 동기화 적용~~
-~~2. mariaDB + Kafka 적용~~
-3. Resilience4J_Trace
-4. Monitoring
-5. Docker
-6. Deployment
+~~1. Kafka 이용 데이터 동기화 적용~~  
+~~2. mariaDB + Kafka 적용~~  
+3. Resilience4J_Trace  
+4. Monitoring  
+5. Docker  
+6. Deployment  
