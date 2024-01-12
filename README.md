@@ -30,12 +30,12 @@
 
 ## 5. Kafka for 데이터동기화 (https://clack2933.tistory.com/20)
 ### Windows 로컬 환경 kafka Test
-1. Zookeeper 서버 띄우기 (New CMD) http://127.0.0.1:2181/
+1. Zookeeper 서버 띄우기 (New CMD) http://127.0.0.1:2181/  
 C:\Study\springCloud\Kafka>
 ```
 .\bin\windows\zookeeper-server-start.bat config\zookeeper.properties
 ```
-2. Kafka 서버 띄우기 (New CMD)  http://127.0.0.1:9092/
+2. Kafka 서버 띄우기 (New CMD)  http://127.0.0.1:9092/  
 C:\Study\springCloud\Kafka>
 ```
 .\bin\windows\kafka-server-start.bat config\server.properties
@@ -66,7 +66,7 @@ C:\Study\springCloud\Kafka\bin\windows>
 * cmd 하나 더 실행해서 consumer 두개 모두 메시지 받는지 확인
 
 ### Kafka Connect
-1. maraidb 설치 (https://mariadb.org/)  http://127.0.0.1:3306/
+1. maraidb 설치 (https://mariadb.org/)  http://127.0.0.1:3306/  
 2. 초기화  
 관리자권한 cmd 실행 > C:\Study\springCloud\mariadb-10.5.23-winx64 이동  
 ```
@@ -97,7 +97,7 @@ plugin.path=\C:\\Study\\springCloud\\Kafka-Connect\\confluentinc-kafka-connect-j
 6. maria db jar 파일 복사 (mariadb-java-client-2.7.2.jar)
 from : C:\Users\DCCIS067000\.gradle\caches\modules-2\files-2.1\org.mariadb.jdbc\mariadb-java-client\2.7.2\138fb9b8caee700bf4793bc42947113a1dbc8532  
 to   : C:\Study\springCloud\Kafka-Connect\confluent-6.1.0\share\java\kafka  
-7. connect 실행 (Zookeeper, Kafka 서버 실행되어 있어야 함)  http://127.0.0.1:8083/
+7. connect 실행 (Zookeeper, Kafka 서버 실행되어 있어야 함)  http://127.0.0.1:8083/  
 C:\Study\springCloud\Kafka-Connect\confluent-6.1.0>  
 ```
 .\bin\windows\connect-distributed.bat .\etc\kafka\connect-distributed.properties  
