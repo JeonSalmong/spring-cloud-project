@@ -32,23 +32,37 @@
 ### Windows 로컬 환경 kafka Test
 1. Zookeeper 서버 띄우기 (New CMD)
 C:\Study\springCloud\Kafka>
+```
 .\bin\windows\zookeeper-server-start.bat config\zookeeper.properties
+```
 2. Kafka 서버 띄우기 (New CMD)
 C:\Study\springCloud\Kafka>
+```
 .\bin\windows\kafka-server-start.bat config\server.properties
+```
 3. Kafka 토픽 생성하기 (New CMD)
 C:\Study\springCloud\Kafka\bin\windows>
 .\kafka-topics.bat --create --topic [topic name] --bootstrap-server [host]:[port] --partitions 1
+```
 .\kafka-toics.bat --create --topic quickstart-events --bootstrap-server localhost:9092 --partitions 1
+```
 3-1. Topic 목록 확인
+```
 .\kafka-topics.bat --bootstrap-server localhost:9092 --list
+```
 3-2 Topic 정보 확인
+```
 .\kafka-topics.bat --describe --topic quickstart-events --bootstrap-server localhost:9092
+```
 4.Producer로 Topic에 메시지 전달하기
+```
 .\kafka-console-producer.bat --broker-list localhost:9092 --topic quickstart-events
+```
 5. 생성한 Topic Consumer로 구독해 데이터 받아오기 (new cmd)
 C:\Study\springCloud\Kafka\bin\windows>
+```
 .\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic quickstart-events --from-beginning
+```
 * cmd 하나 더 실행해서 consumer 두개 모두 메시지 받는지 확인
 
 ### Kafka Connect
