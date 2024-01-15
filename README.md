@@ -4,6 +4,15 @@
 ### http://127.0.0.1:8761/
 ## 2. ConfigService (Spring Config) -- optional
 ### http://127.0.0.1:8888/
+- user-service, order-service datasource id/pw symmetric encryption(대칭키암호화) 적용
+- user-service, order-service datasource id/pw asymmetric encryption(비대칭키암호화) 적용
+```
+[자바에서 제공하는 비대칭키암호화 key 생성]
+keytool -genkeypair -alias apiEncryptionKey -keyalg RSA -dname "CN=TEST, OU=API Dev, O=jsm, L=Seoul, C=KR" -keypass "1234qwer" -keystore apiEncryptionKey.jks -storepass "1234qwer"
+keytool -importkeystore -srckeystore apiEncryptionKey.jks -destkeystore apiEncryptionKey.jks -deststoretype pkcs12
+```
+- 암/복호화 확인 : http://localhost:8888/encrypt or http://localhost:8888/decrypt
+
 ## 3. ApiGateway (Spring Gateway)
 ### http://127.0.0.1:8000/
 - filter : 토큰 유무, 유효성 체크
@@ -18,6 +27,7 @@
 - actuator refresh : yml 파일 갱신
 - JWT 토큰 처리 (접속 Device, Auth 정보 추가)
 - feign-client : Order-Service 호출
+- db 접속 정보 config-server로 이관 (비대칭키암호화 적용)
 
 ### 4.2 Order-Service (port : random)
 - 동기화 이슈 : 인스턴스 2개 실행 시 별도 저장되는 현상
@@ -48,7 +58,7 @@
     }
 }
 ```
-
+- db 접속 정보 config-server로 이관 (비대칭키암호화 적용)
 ### 4.3 Catalog-Service (port : random)
 - order-service에서 보낸 메시지 수신하는 kafka consumer 추가
 

@@ -17,20 +17,20 @@ spring:
     show-sql: true
     generate-ddl: true
     defer-datasource-initialization: true
-  datasource:
-    url: "jdbc:h2:~/test3"
-    driver-class-name: org.h2.Driver
-    username: sa
+#  datasource:  #config server로 이동
+#    url: "jdbc:h2:~/test3"
+#    driver-class-name: org.h2.Driver
+#    username: sa
   sql:
     init:
       mode: always
-  jwt:
-    token:
-      header: Authorization
-      type: Bearer
-      #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
-      secret-key: a2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbQ==
-      expire-length: 864000000 # 10days
+#  jwt: # config server로 이동
+#    token:
+#      header: Authorization
+#      type: Bearer
+#      #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
+#      secret-key: a2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbQ==
+#      expire-length: 864000000 # 10days
 
 greeting:
   message: Welcome to the Simple E-commerce.
