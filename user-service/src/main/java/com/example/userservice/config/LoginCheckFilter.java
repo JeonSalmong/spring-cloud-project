@@ -15,7 +15,7 @@ public class LoginCheckFilter implements Filter {
 
     public static final String AUTHORIZATION = "Authorization";
     public static final String TYPE = "Bearer";
-    private static final String[] whitelist = {"/login", "/error", "/signup", "/health_check", "/actuator/**"};
+    private static final String[] whitelist = {"/login", "/error", "/signup", "/health_check", "/actuator/**", "/h2-console/**"};
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

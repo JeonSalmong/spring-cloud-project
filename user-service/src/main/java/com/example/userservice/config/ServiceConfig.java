@@ -37,7 +37,7 @@ public class ServiceConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns(
-                        "/login", "/error", "/signup", "/health_check", "/actuator/**"
+                        "/login", "/error", "/signup", "/health_check", "/actuator/**", "/h2-console/**"
                 );
     }
 

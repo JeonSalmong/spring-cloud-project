@@ -3,7 +3,9 @@ package com.example.userservice.config;
 import com.example.userservice.config.exception.CustomException;
 import com.example.userservice.vo.RequestLogin;
 import io.jsonwebtoken.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import java.util.Base64;
@@ -12,10 +14,18 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${spring.jwt.token.secret-key}")
+    private Environment env;
+
+//    @Value("${spring.jwt.token.secret-key}")
     private String secretKey;
-    @Value("${spring.jwt.token.expire-length}")
+//    @Value("${spring.jwt.token.expire-length}")
     private long validityInMilliseconds;
+
+    public JwtTokenProvider(Environment env) {
+        this.env = env;
+        this.secretKey = env.getProperty("spring.jwt.token.secret-key");
+        this.validityInMilliseconds = Long.parseLong(env.getProperty("spring.jwt.token.expire-length"));
+    }
 
     //토큰생성
     public String createToken(String subject, RequestLogin requestLogin) {

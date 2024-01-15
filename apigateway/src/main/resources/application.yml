@@ -21,13 +21,6 @@ management:
 spring:
   application:
     name: apigateway-service
-  jwt:
-    token:
-      header: Authorization
-      type: Bearer
-      #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
-      secret-key: a2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbQ==
-      expire-length: 864000000 # 10days
   cloud:
     gateway:
       default-filters:

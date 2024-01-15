@@ -12,18 +12,20 @@ spring:
       path: /h2-console
   jpa:
     hibernate:
-#      ddl-auto: none
-      ddl-auto: create-drop
+      ddl-auto: none
+#      ddl-auto: create-drop
     show-sql: true
     generate-ddl: true
     defer-datasource-initialization: true
+#    sql:
+#      init:
+    #      mode: always   #data.sql 사용
 #  datasource:  #config server로 이동
 #    url: "jdbc:h2:~/test3"
 #    driver-class-name: org.h2.Driver
 #    username: sa
-  sql:
-    init:
-      mode: always
+
+
 #  jwt: # config server로 이동
 #    token:
 #      header: Authorization
@@ -49,6 +51,15 @@ management:
     web:
       exposure:
         include: refresh, health, beans, busrefresh, info, metrics, prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      consume: b3
+      produce: b3_multi
+    zipkin:
+      tracing:
+        endpoint: "http://host.docker.internal:9411"
 
 clients:
   order-service:
@@ -59,4 +70,6 @@ clients:
 logging:
   level:
     com.example.userservice.client: DEBUG
+  pattern:
+    level: "%5p [%X{traceId:-},%X{spanId:-}]"
 
