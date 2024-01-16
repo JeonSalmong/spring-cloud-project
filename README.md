@@ -26,7 +26,7 @@ keytool -importkeystore -srckeystore apiEncryptionKey.jks -destkeystore apiEncry
 - exception : 커스텀 response
 - actuator refresh : yml 파일 갱신
 - JWT 토큰 처리 (접속 Device, Auth 정보 추가)
-- feign-client : Order-Service 호출
+- feign-client : Order-Service 호출 (CircuitBreaker 적용)
 - db 접속 정보 config-server로 이관 (비대칭키암호화 적용)
 
 ### 4.2 Order-Service (port : random)
@@ -176,10 +176,35 @@ body 내용
 ```
 topics 이름과 동일한 테이블 자동 생성 됨    
 
+## 6. Zipkin (http://host.docker.internal:9411)
+- zipkin docker desktop으로 실행
+```
+[docker-compose.yml 추가]
+zipkin:
+    image: openzipkin/zipkin-slim
+    container_name: 'zipkin-slim'
+    ports:
+      - '9411:9411'
+```
+- user-service 로그 trace 적용 (user-service -> order-service 흐름 tracing)
+```
+[build.gradle]
+// 프로젝트에서 Spring Cloud OpenFeign의 FeignClient를 사용하고 있다면 아래 의존성도 추가
+    implementation 'io.github.openfeign:feign-micrometer'
+```
+```
+[application.yml]
+spring:
+  cloud:
+    openfeign:
+      micrometer:
+        enabled: true
+```
+
 ## To-Do
 ~~1. Kafka 이용 데이터 동기화 적용~~  
 ~~2. mariaDB + Kafka 적용~~  
-3. Resilience4J_Trace  
+~~3. Resilience4J_Trace~~
 4. Monitoring  
 5. Docker  
 6. Deployment  

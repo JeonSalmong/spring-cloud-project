@@ -49,6 +49,8 @@ dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
     implementation 'io.micrometer:micrometer-tracing-bridge-brave'
     implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
+    // 프로젝트에서 Spring Cloud OpenFeign의 FeignClient를 사용하고 있다면 아래 의존성도 추가
+    implementation 'io.github.openfeign:feign-micrometer'
 
     implementation 'org.springframework.boot:spring-boot-starter-mobile:1.5.22.RELEASE'
 }

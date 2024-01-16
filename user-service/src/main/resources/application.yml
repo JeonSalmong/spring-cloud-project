@@ -4,6 +4,10 @@ server:
 spring:
   application:
     name: user-service
+  cloud:  # openfeign 사용 trace id 내려 줄 때 필수 설정
+    openfeign:
+      micrometer:
+        enabled: true
   h2:
     console:
       enabled: true
@@ -55,8 +59,7 @@ management:
     sampling:
       probability: 1.0
     propagation:
-      consume: b3
-      produce: b3_multi
+      type: b3
     zipkin:
       tracing:
         endpoint: "http://host.docker.internal:9411"
@@ -71,5 +74,5 @@ logging:
   level:
     com.example.userservice.client: DEBUG
   pattern:
-    level: "%5p [%X{traceId:-},%X{spanId:-}]"
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
 

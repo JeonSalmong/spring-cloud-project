@@ -30,3 +30,23 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, health, beans, busrefresh, info, metrics, prometheus
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+        type: b3
+    zipkin:
+      tracing:
+        endpoint: "http://host.docker.internal:9411"
+
+logging:
+  level:
+    com.example.orderservice.client: DEBUG
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
