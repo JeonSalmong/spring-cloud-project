@@ -2,6 +2,12 @@ server:
   port: 0
 
 spring:
+  profiles:
+    active: local
+    include:
+      - oauth
+      - rathon
+      - dnp
   application:
     name: user-service
   cloud:  # openfeign 사용 trace id 내려 줄 때 필수 설정
@@ -24,19 +30,17 @@ spring:
 #    sql:
 #      init:
     #      mode: always   #data.sql 사용
-#  datasource:  #config server로 이동
-#    url: "jdbc:h2:~/test3"
-#    driver-class-name: org.h2.Driver
-#    username: sa
-
-
-#  jwt: # config server로 이동
-#    token:
-#      header: Authorization
-#      type: Bearer
-#      #HS512 알고리즘을 사용할 것이기 때문에 512bit, 즉 64byte 이상의 secret key를 사용해야 한다.
-#      secret-key: a2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbXRva2FyaW10b2thcmltdG9rYXJpbQ==
-#      expire-length: 864000000 # 10days
+  datasource:
+    url: "jdbc:h2:~/test3"
+    driver-class-name: org.h2.Driver
+    #username: '{cipher}aef003ba1152d30e645b10d697da5369aa5b345e749779ecc14b0686b91393ab' #대칭키 암호
+    username: '{cipher}AQBBeOAxx7i3WH16kN5DAWEu81lG954hF19M24jqa3T7OQpS84KgOlXY0AXV/MIeYLxA34BFF8RgGDgOm3Rdi8cWz105g+9NKGTPUVVIs/AjqpAZ2eIsm5m9DwiD2IfXWZxIFDXkFs7kWoe+oxbHzyC7hz8eJ20d362L6YVFeQT/cRTxElgnMZTbfTV/zqWs5BauTNBUzbB4u3vIP3CO7NGVrTFJknQZs4xgyTPDh0DenBn0qn5aQrIe2t+l4Ixam8RzqaXpnLCqE857z0Ft0B83/yLxGSszxDZ/xT2HPb79ESU/BFuJzSp7Dr7LzU3EA3G5PSrSP4TUOV2m7Oy7eKyJfJojocujfg3QohFMxo7D7r9DUud7Y8FZ/qL4LpWex0Y='   #비대칭키 암호
+  jwt:
+    token:
+      header: Authorization
+      type: Bearer
+      secret-key: '{cipher}AQArW2p8aTKyMbXjmu6XBLuvqrq7yBpCOV7xMigE0cBsxqTEpPGH/eT9/FLZA/R0wvB9Nd27nuw1CnK/cSbwEFAcHchCy4ez3gThj0VM5em7XcCg3cuW27g/DOhWET8mZ8Qo6TWJbc9KuRZHSUcXBZNbuYWdIewQhIPf9ig92D3T+V683HNYoHaG8O3TkD5zfIZE2Bym1EregzU9HPv4Bp9R047/dbADLGsEI6aItnveHCjYN6ZU0NbNQBuOrw3HZ6aj4JmjcA0Mkt/AtWv/u4INkjftm2EebhQnsDkYeCj+Lg0cD3RvqYWbc5Qzle3VENqOYRAaoA2UZGFYy+RYHqbzyrWNFWwZmHNB8YGv4IMvri2rDnEykUK7cHdux1VvVwyhoMeZzalqM2sLonXbvXiqilQTMxXknYhH7kctB9+T46qW7b+2IhmmfYrcoKmj2/c1POuffL/3SDgyBgTiZtZ+KUFmzvKZwtRO9mT+gd2dexVFXtdRk4eqTS/OV194VRI7TL8ZbvsvVyhMUhJAPuYI'
+      expire-length: 864000000 # 10days
 
 greeting:
   message: Welcome to the Simple E-commerce.
@@ -65,14 +69,22 @@ management:
         endpoint: "http://host.docker.internal:9411"
 
 clients:
-  order-service:
+  api-gateway:
     url: http://127.0.0.1:8000
     exception:
       orders_is_empty: order-service error
 
 logging:
   level:
-    com.example.userservice.client: DEBUG
+    com.example.userservice: DEBUG
   pattern:
     level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+springdoc:
+  version: '@project.version@'
+  enable: true
+  path: /user-service/v3/api-docs
+  enable-spring-security: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
 

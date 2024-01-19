@@ -51,8 +51,13 @@ dependencies {
     implementation 'io.zipkin.reporter2:zipkin-reporter-brave'
     // 프로젝트에서 Spring Cloud OpenFeign의 FeignClient를 사용하고 있다면 아래 의존성도 추가
     implementation 'io.github.openfeign:feign-micrometer'
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0'
 
+    // dnp libs
     implementation 'org.springframework.boot:spring-boot-starter-mobile:1.5.22.RELEASE'
+    implementation 'org.apache.commons:commons-collections4'
+    implementation 'commons-collections:commons-collections:3.2.2'
+    implementation 'org.jasypt:jasypt-spring31:1.9.2'
 }
 
 dependencyManagement {

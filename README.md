@@ -28,6 +28,7 @@ keytool -importkeystore -srckeystore apiEncryptionKey.jks -destkeystore apiEncry
 - JWT 토큰 처리 (접속 Device, Auth 정보 추가)
 - feign-client : Order-Service 호출 (CircuitBreaker 적용)
 - db 접속 정보 config-server로 이관 (비대칭키암호화 적용)
+- DNP core 탑재 (서비스단 로그 발생)
 
 ### 4.2 Order-Service (port : random)
 - 동기화 이슈 : 인스턴스 2개 실행 시 별도 저장되는 현상
@@ -59,8 +60,12 @@ keytool -importkeystore -srckeystore apiEncryptionKey.jks -destkeystore apiEncry
 }
 ```
 - db 접속 정보 config-server로 이관 (비대칭키암호화 적용)
+
 ### 4.3 Catalog-Service (port : random)
 - order-service에서 보낸 메시지 수신하는 kafka consumer 추가
+
+### 4.4 Logger-Service (port : random)
+
 
 ## 5. Kafka for 데이터동기화 (https://clack2933.tistory.com/20)
 ### Windows 로컬 환경 kafka Test
@@ -200,6 +205,10 @@ spring:
       micrometer:
         enabled: true
 ```
+
+## 7. Swagger (http://127.0.0.1:8000/)
+- api-gateway 적용 -> root에서 swagger ui 확인
+- 각 마이크로서비스 적용
 
 ## To-Do
 ~~1. Kafka 이용 데이터 동기화 적용~~  

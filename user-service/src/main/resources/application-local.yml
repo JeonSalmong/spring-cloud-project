@@ -1,0 +1,4 @@
+dnp:
+  path:
+    excle-template: "/WEB-INF/exceltemplate/"
+    upload-root: "C:/app_attach/DHE4/"

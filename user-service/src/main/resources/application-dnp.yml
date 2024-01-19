@@ -1,0 +1,13 @@
+dnp:
+  # Docker 사용으로 HOST명 설정
+  host-name: dockerhost
+  aop-pointcut:
+    action: "(execution(* *..*Controller.*(..)) && !(execution(* *..*LoginController.*(..)) || execution(* *..*ExceptionController.*(..)) || execution(* *..*ActionLogController.*(..)))) || execution(* *..ViewProvider.viewMobile(..))"
+    authen: "execution(* *..*login*(..)) || execution(* *..*bioLogin*(..)) || execution(* *..*logout*(..)) || execution(* *..*doNewLoginProcess*(..))"
+    authen-before: "${dnp.aop-pointcut.authen}"
+    trans: "@annotation(dnp.sys.log.trans.DnpWebService)"
+  properties:
+    - property-type: file
+      name: "commonProperty" # 기본 설정
+      encoding: "UTF-8"
+      filename: "classpath*:/static/properties/${spring.profiles.active}/dnpCommon.properties"
